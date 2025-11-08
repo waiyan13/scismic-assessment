@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "types": ["vitest/globals", "vitest/jsdom"]
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
