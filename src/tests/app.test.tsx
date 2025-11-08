@@ -7,5 +7,5 @@ describe("Candidate page", () => {
   it("displays heading", () => {
     render(<App />);
     expect(screen.getByText("Candidates")).toBeInTheDocument();
-  })
+  });
 });
