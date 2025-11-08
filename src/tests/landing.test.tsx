@@ -11,7 +11,7 @@ describe("Landing page", () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(screen.getByText("Hire the right")).toBeInTheDocument();
   });

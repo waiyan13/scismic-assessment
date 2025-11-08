@@ -17,7 +17,7 @@ export const letterVariants = {
 function AnimatedText({ word }: AnimatedTextProps) {
   return (
     <motion.p
-      className="mb-6 text-balance font-bold text-7xl text-secondary tracking-tight md:text-4xl lg:text-8xl"
+      className="mb-6 text-balance font-bold text-5xl text-secondary tracking-tight md:text-6xl lg:text-8xl"
       key={word}
       variants={sentenceVariants}
       initial="hidden"
