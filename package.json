@@ -10,7 +10,7 @@
     "fmt": "biome lint src",
     "sort": "biome lint --write --unsafe --only=nursery/useSortedClasses src",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@base-ui-components/react": "1.0.0-beta.4",
