@@ -1,14 +1,13 @@
-import { useEffect } from "react";
-
+import { useEffect, useMemo, useState } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
 import { useForm } from "react-hook-form";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/form";
 import { Input } from "@/components/input";
-//import { filterCandidates } from "@/lib/util";
-
 import { useGetCandidates } from "../hooks/useGetCandidates";
-
 import { CandidateCardsList } from "./candidate-cards-list";
+
+import type { Candidate } from "@/types/candidate";
 
 interface SearchForm {
   search: string;
@@ -16,37 +15,39 @@ interface SearchForm {
 
 function CandidatesListContainer() {
   const { data } = useGetCandidates();
-
-  const form = useForm<SearchForm>({
-    defaultValues: {
-      search: "",
-    },
-  });
+  const form = useForm<SearchForm>({ defaultValues: { search: "" } });
 
   const { watch } = form;
   const searchTerm = watch("search");
+  const deferredSearchTerm = useDebounce(searchTerm.toLowerCase(), 300);
+
+  const [filterResult, setFilterResult] = useState<Candidate[]>([]);
+
+  // Memoize raw data
+  const candidates = useMemo(() => data ?? [], [data]);
 
   useEffect(() => {
-    console.log(searchTerm);
-  }, [searchTerm]);
+    if (!deferredSearchTerm) {
+      setFilterResult(candidates);
+      return;
+    }
 
-  /* index and memoize data
-  const candidatesByCity = useMemo(() => {
-    return data ? filterCandidates(data, "address.city") : {};
-  }, [data]);
+    const result = candidates.filter((c) => {
+      const name = c.name?.toLowerCase() ?? "";
+      const email = c.email?.toLowerCase() ?? "";
+      const company = c.company?.name?.toLowerCase() ?? "";
+      const city = c.address?.city?.toLowerCase() ?? "";
 
-  const candidatesByName = useMemo(() => {
-    return data ? filterCandidates(data, "name") : {};
-  }, [data]);
+      return (
+        name.includes(deferredSearchTerm) ||
+        email.includes(deferredSearchTerm) ||
+        company.includes(deferredSearchTerm) ||
+        city.includes(deferredSearchTerm)
+      );
+    });
 
-  const candidatesByCompany = useMemo(() => {
-    return data ? filterCandidates(data, "company.name") : {};
-  }, [data]);
-
-  const candidatesByEmail = useMemo(() => {
-    return data ? filterCandidates(data, "email") : {};
-  }, [data]);
-  */
+    setFilterResult(result);
+  }, [deferredSearchTerm, candidates]);
 
   return (
     <div className="flex h-screen flex-col space-y-4 bg-linear-to-b from-bg-background to-primary-100 p-8">
@@ -63,7 +64,7 @@ function CandidatesListContainer() {
                   <FormControl>
                     <Input
                       className="w-full border border-primary"
-                      placeholder="Search by name, email, company"
+                      placeholder="Search by name, email, company, or city"
                       {...field}
                     />
                   </FormControl>
@@ -73,7 +74,8 @@ function CandidatesListContainer() {
           </form>
         </Form>
       </div>
-      <CandidateCardsList data={data} />
+
+      <CandidateCardsList data={filterResult} />
     </div>
   );
 }
