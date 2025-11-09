@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: read
       deployments: write
@@ -26,6 +27,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build
+        env:
+          VITE_CANDIDATE_API_URL: ${{ vars.VITE_CANDIDATE_API_URL }}
         run: pnpm run build
       - name: Test
         run: pnpm run test
