@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/button";
 import { HERO_SECTION_WORDS } from "@/config";
 
 import { AnimatedText } from "./animated-text";
@@ -31,15 +29,6 @@ function HeroSection() {
             for your mission
           </p>
 
-          <div className="flex flex-col items-center gap-4 sm:flex-row">
-            <Button
-              size="lg"
-              className="h-12 w-full bg-primary text-primary-foreground text-xl sm:w-auto"
-            >
-              Start Hiring
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
         </div>
       </div>
     </section>
