@@ -1,10 +1,10 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/form";
 import { Input } from "@/components/input";
-import { filterCandidates } from "@/lib/util";
+//import { filterCandidates } from "@/lib/util";
 
 import { useGetCandidates } from "../hooks/useGetCandidates";
 
@@ -26,7 +26,11 @@ function CandidatesListContainer() {
   const { watch } = form;
   const searchTerm = watch("search");
 
-  // index and memoize data
+  useEffect(() => {
+    console.log(searchTerm);
+  }, [searchTerm]);
+
+  /* index and memoize data
   const candidatesByCity = useMemo(() => {
     return data ? filterCandidates(data, "address.city") : {};
   }, [data]);
@@ -42,6 +46,7 @@ function CandidatesListContainer() {
   const candidatesByEmail = useMemo(() => {
     return data ? filterCandidates(data, "email") : {};
   }, [data]);
+  */
 
   return (
     <div className="flex flex-col space-y-4 p-8">
