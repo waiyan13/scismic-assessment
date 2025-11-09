@@ -49,7 +49,7 @@ function CandidatesListContainer() {
         <h1 className="font-bold text-2xl">Candidates</h1>
 
         <Form {...form}>
-          <form className="w-full md:w-1/5" id="search-candidate">
+          <form className="w-full md:w-2/5 lg:w-1/5" id="search-candidate">
             <FormField
               name="search"
               control={form.control}
