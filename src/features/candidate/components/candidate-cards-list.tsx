@@ -27,10 +27,9 @@ function CandidateCardsList({ data }: CandidateCardProps) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {data.map((candidate) => (
-        <Dialog>
+        <Dialog key={candidate.id}>
           <DialogTrigger>
             <motion.div
-              key={candidate.id}
               whileHover={{
                 scale: [null, 1.03],
               }}
