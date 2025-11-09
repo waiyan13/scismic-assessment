@@ -37,13 +37,13 @@ function CandidateCardsList({ data }: CandidateCardProps) {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-[20px_1fr] gap-2">
-                <Briefcase />
+                <Briefcase color="#4a5565" />
                 <span className="pl-2">{candidate.company.name}</span>
 
-                <MapPin />
+                <MapPin color="#4a5565" />
                 <span className="pl-2">{candidate.address.city}</span>
 
-                <Phone />
+                <Phone color="#4a5565" />
                 <span className="pl-2">{candidate.phone}</span>
               </div>
             </CardContent>
@@ -51,7 +51,7 @@ function CandidateCardsList({ data }: CandidateCardProps) {
         </motion.div>
       ))}
     </div>
-  )
+  );
 }
 
 export { CandidateCardsList };
