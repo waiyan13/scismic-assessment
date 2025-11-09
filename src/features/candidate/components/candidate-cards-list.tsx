@@ -30,7 +30,7 @@ function CandidateCardsList({ data }: CandidateCardProps) {
         >
           <Card className="border-none">
             <CardHeader>
-              <CardTitle>{candidate.name}</CardTitle>
+              <CardTitle className="text-secondary text-xl">{candidate.name}</CardTitle>
               <CardDescription className="text-primary-500">
                 @{candidate.username}
               </CardDescription>

@@ -49,12 +49,12 @@ function CandidatesListContainer() {
   */
 
   return (
-    <div className="flex flex-col space-y-4 p-8">
+    <div className="flex h-screen flex-col space-y-4 bg-linear-to-b from-bg-background to-primary-100 p-8">
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between">
         <h1 className="font-bold text-2xl">Candidates</h1>
 
         <Form {...form}>
-          <form className="w-full md:w-2/5 lg:w-1/5" id="search-candidate">
+          <form className="w-full md:w-[300px]" id="search-candidate">
             <FormField
               name="search"
               control={form.control}
@@ -62,7 +62,7 @@ function CandidatesListContainer() {
                 <FormItem>
                   <FormControl>
                     <Input
-                      className="w-full"
+                      className="w-full border border-primary"
                       placeholder="Search by name, email, company"
                       {...field}
                     />
