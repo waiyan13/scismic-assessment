@@ -8,11 +8,13 @@ import {
   CardTitle,
 } from "@/components/card";
 
-import { useGetCandidates } from "../hooks/useGetCandidates";
+import type { Candidate } from "@/types/candidate";
 
-function CandidatesList() {
-  const { data } = useGetCandidates();
+interface CandidateCardProps {
+  data: Candidate[];
+}
 
+function CandidateCardsList({ data }: CandidateCardProps) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {data.map((candidate) => (
@@ -49,7 +51,7 @@ function CandidatesList() {
         </motion.div>
       ))}
     </div>
-  );
+  )
 }
 
-export { CandidatesList };
+export { CandidateCardsList };
