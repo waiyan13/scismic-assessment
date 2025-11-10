@@ -2,6 +2,8 @@
 
 View the live page [here](https://candidate.waiyan13.com).
 
+Deployed to Cloudflare Pages via GitHub Actions.
+
 ## Running Locally
 
 ### Pre-requisities
