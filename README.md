@@ -4,6 +4,14 @@ View the live page [here](https://candidate.waiyan13.com).
 
 Deployed to Cloudflare Pages via GitHub Actions.
 
+## Screenshots
+
+![Landing Page](public/landing.png)
+
+![Candidate List Page](public/candidate_list.png)
+
+![Candidate Modal](public/candidate_modal.png)
+
 ## Running Locally
 
 ### Pre-requisities
