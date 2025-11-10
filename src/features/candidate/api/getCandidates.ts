@@ -1,5 +1,4 @@
 import ky from "ky";
-import { httpClient } from "@/lib/http";
 
 import type { Candidate } from "@/types/candidate";
 import type { HTTPError } from "ky";
