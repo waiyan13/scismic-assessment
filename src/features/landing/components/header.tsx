@@ -14,7 +14,9 @@ function LandingHeader() {
       <header className="sticky top-0 z-1 flex w-full justify-between p-4 xl:mx-auto xl:w-2/3">
         <img className="h-8" src="/logo.svg" />
         <Navigation />
-        <Button className="text-primary-950" onClick={handleNavigate}>Go to dashboard</Button>
+        <Button className="text-primary-950" onClick={handleNavigate}>
+          Go to dashboard
+        </Button>
       </header>
     </div>
   );

@@ -28,7 +28,6 @@ function HeroSection() {
           <p className="mb-6 text-balance font-bold text-5xl text-secondary tracking-tight md:text-6xl lg:text-8xl">
             for your mission
           </p>
-
         </div>
       </div>
     </section>
