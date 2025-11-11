@@ -16,7 +16,7 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className="relative border-border border-b bg-[url(/hero.jpg)] bg-center bg-cover bg-primary bg-no-repeat py-16 md:py-32">
+    <section className="bg-[url(/hero.jpg)] bg-center bg-cover bg-primary bg-no-repeat py-16 md:py-32">
       <div className="w-full p-4 lg:mx-auto lg:w-2/3">
         <div className="max-w-4xl">
           <h1 className="mb-6 text-balance font-bold text-5xl text-secondary tracking-tight md:text-6xl lg:text-8xl">
