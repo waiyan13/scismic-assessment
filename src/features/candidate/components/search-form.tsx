@@ -1,27 +1,54 @@
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/form";
 import { Input } from "@/components/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/select";
+
+import { getCandidates } from "../api/getCandidates";
 
 interface SelectItem {
   label: string;
   value: string | null;
 }
 
-interface SearchFormProps {
-  data: SelectItem[];
-}
+function SearchForm() {
+  const { data, isPending } = useQuery({
+    queryKey: ["candidates", "list"],
+    queryFn: getCandidates,
+    enabled: false,
+    staleTime: Infinity,
+  });
 
-function SearchForm({ data }: SearchFormProps) {
+  // filter city list only when the data has changed
+  const cities = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+
+    const citySet = new Set(data.map((candidate) => candidate.address.city));
+
+    return [
+      { label: "Select a city", value: null },
+      ...Array.from(citySet)
+        .sort()
+        .map((city) => ({ label: city, value: city })),
+    ];
+  }, [data]);
+
   const form = useForm();
-
-  const handleSubmit = () => {};
 
   return (
     <Form {...form}>
-      <form id="search-form" onSubmit={form.handleSubmit(handleSubmit)}>
-        <div className="flex space-x-4">
+      <form id="search-form" aria-busy={isPending}>
+        <div className="flex flex-col space-x-4 md:flex-row">
           <FormField
             control={form.control}
             name="search-input"
@@ -29,7 +56,7 @@ function SearchForm({ data }: SearchFormProps) {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="w-[300px]"
+                    className="w-full md:w-[300px]"
                     placeholder="Search by name, email or company"
                   />
                 </FormControl>
@@ -43,14 +70,17 @@ function SearchForm({ data }: SearchFormProps) {
             render={() => (
               <FormItem>
                 <FormControl>
-                  <Select items={data}>
-                    <SelectTrigger className="w-[150px] border-none bg-gray-50">
+                  <Select items={cities}>
+                    <SelectTrigger className="w-full border-none bg-gray-50 md:w-[150px]">
                       <SelectValue className="text-muted-foreground" />
                     </SelectTrigger>
                     <SelectContent className="border-none">
-                      {data.length != 0 && data.map((city) => (
-                        <SelectItem key={city.value} value={city.value}>{city.label}</SelectItem>
-                      ))}
+                      {cities.length > 0 &&
+                        cities.map((city) => (
+                          <SelectItem key={city.value} value={city.value}>
+                            {city.label}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
