@@ -29,9 +29,7 @@ jobs:
       - name: Build
         env:
           VITE_CANDIDATE_API_URL: ${{ vars.VITE_CANDIDATE_API_URL }}
-        run: |
-          echo $VITE_CANDIDATE_API_URL
-          pnpm run build
+        run: pnpm run build
       - name: Test
         run: pnpm run test
       - name: Deploy
