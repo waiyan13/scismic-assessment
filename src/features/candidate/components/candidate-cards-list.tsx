@@ -1,5 +1,7 @@
+import { Input } from "@base-ui-components/react";
 import { Briefcase, MapPin, Phone } from "lucide-react";
 import { motion } from "motion/react";
+
 import {
   Card,
   CardContent,
@@ -14,16 +16,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/dialog";
-
-import type { Candidate } from "@/types/candidate";
-import { Input } from "@base-ui-components/react";
 import { Label } from "@/components/label";
 
-interface CandidateCardProps {
-  data: Candidate[];
-}
+import { useGetCandidates } from "../hooks/useGetCandidates";
 
-function CandidateCardsList({ data }: CandidateCardProps) {
+function CandidateCardsList() {
+  const { data } = useGetCandidates();
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       {data.map((candidate) => (

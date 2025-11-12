@@ -3,7 +3,7 @@ import { getCandidates } from "../api/getCandidates";
 
 function useGetCandidates() {
   return useSuspenseQuery({
-    queryKey: ["getCandidates"],
+    queryKey: ["candidates", "list"],
     queryFn: getCandidates,
   });
 }
