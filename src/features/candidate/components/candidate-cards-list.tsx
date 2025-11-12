@@ -1,3 +1,6 @@
+import { useMemo } from "react";
+
+import { useDebounce } from "@uidotdev/usehooks";
 import { Input } from "@base-ui-components/react";
 import { Briefcase, MapPin, Phone } from "lucide-react";
 import { motion } from "motion/react";
@@ -20,12 +23,53 @@ import { Label } from "@/components/label";
 
 import { useGetCandidates } from "../hooks/useGetCandidates";
 
-function CandidateCardsList() {
+interface CandidateCardsListProps {
+  searchTerm: string;
+  cityFilter: string;
+}
+
+function CandidateCardsList({
+  searchTerm,
+  cityFilter,
+}: CandidateCardsListProps) {
   const { data } = useGetCandidates();
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  const filteredData = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+
+    const search = debouncedSearchTerm.trim().toLowerCase();
+    const city = cityFilter.trim();
+
+    return data.filter((candidate) => {
+      const matchesCity = !city || candidate.address.city === city;
+
+      if (!matchesCity) {
+        return false;
+      }
+
+      if (!search) {
+        return true;
+      }
+
+      const name = candidate.name.toLowerCase() ?? "";
+      const email = candidate.email.toLowerCase() ?? "";
+      const company = candidate.company.name.toLowerCase() ?? "";
+
+      return (
+        name.includes(search) ||
+        email.includes(search) ||
+        company.includes(search)
+      );
+    });
+  }, [cityFilter, data, debouncedSearchTerm]);
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {data.map((candidate) => (
+      {filteredData.map((candidate) => (
         <Dialog key={candidate.id}>
           <DialogTrigger>
             <motion.div

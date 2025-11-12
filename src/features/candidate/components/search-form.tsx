@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
@@ -19,7 +20,21 @@ interface SelectItem {
   value: string | null;
 }
 
-function SearchForm() {
+interface SearchForm {
+  search: string;
+  city: string | null;
+}
+
+export interface SearchFilters {
+  search: string;
+  city: string | null;
+}
+
+interface SearchFormProps {
+  onFilterChange: (filters: SearchFilters) => void;
+}
+
+function SearchForm({ onFilterChange }: SearchFormProps) {
   const { data, isPending } = useQuery({
     queryKey: ["candidates", "list"],
     queryFn: getCandidates,
@@ -43,7 +58,23 @@ function SearchForm() {
     ];
   }, [data]);
 
-  const form = useForm();
+  const form = useForm<SearchForm>({
+    defaultValues: {
+      search: "",
+      city: null,
+    },
+  });
+
+  const { watch } = form;
+  const searchValue = watch("search");
+  const cityValue = watch("city");
+
+  useEffect(() => {
+    onFilterChange({
+      search: searchValue,
+      city: cityValue,
+    });
+  }, [cityValue, searchValue]);
 
   return (
     <Form {...form}>
@@ -51,13 +82,14 @@ function SearchForm() {
         <div className="flex flex-col space-x-4 md:flex-row">
           <FormField
             control={form.control}
-            name="search-input"
-            render={() => (
+            name="search"
+            render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
                     className="w-full md:w-[300px]"
                     placeholder="Search by name, email or company"
+                    {...field}
                   />
                 </FormControl>
               </FormItem>
@@ -67,20 +99,27 @@ function SearchForm() {
           <FormField
             name="city"
             control={form.control}
-            render={() => (
+            render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select items={cities}>
+                  <Select
+                    {...field}
+                    items={cities}
+                    value={field.value}
+                    onValueChange={(val) => field.onChange(val)}
+                  >
                     <SelectTrigger className="w-full border-none bg-gray-50 md:w-[150px]">
                       <SelectValue className="text-muted-foreground" />
                     </SelectTrigger>
                     <SelectContent className="border-none">
-                      {cities.length > 0 &&
-                        cities.map((city) => (
-                          <SelectItem key={city.value} value={city.value}>
-                            {city.label}
-                          </SelectItem>
-                        ))}
+                      {cities.map((city) => (
+                        <SelectItem
+                          key={city.value ?? "default"}
+                          value={city.value}
+                        >
+                          {city.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
