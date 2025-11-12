@@ -1,13 +1,20 @@
 import { Suspense } from "react";
 
-import { CandidatesListContainer } from "@/features/candidate/components/candidates-list-container";
+import { CandidateCardsList } from "@/features/candidate/components/candidate-cards-list";
 import { CandidateSkeletonList } from "@/features/candidate/components/candidate-skeleton-list";
+import { SearchForm } from "@/features/candidate/components/search-form";
 
 function CandidatesPage() {
   return (
-    <Suspense fallback={<CandidateSkeletonList count={4} />}>
-      <CandidatesListContainer />
-    </Suspense>
+    <div className="flex flex-col space-y-4 p-4">
+      <div className="flex flex-col space-y-4 md:flex-row md:justify-between">
+        <h1 className="font-bold text-2xl">Candidates</h1>
+        <SearchForm />
+      </div>
+      <Suspense fallback={<CandidateSkeletonList count={4} />}>
+        <CandidateCardsList />
+      </Suspense>
+    </div>
   );
 }
 
